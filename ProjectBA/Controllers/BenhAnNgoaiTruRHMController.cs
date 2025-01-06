@@ -7,15 +7,15 @@ using WkHtmlToPdfDotNet.Contracts;
 namespace ProjectBA.Controllers
 {
     [Route("QuanLy/[Controller]")]
-    public class BenhAnNoiKhoaController : Controller
+    public class BenhAnNgoaiTruRHMController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IBenhAnNoiKhoaServices _services;
+        private readonly IBenhAnNgoaiTruRHMServices _services;
         private readonly HospitalContext _context;
         private readonly IConverter _converter;
         private readonly ICompositeViewEngine _viewEngine;
 
-        public BenhAnNoiKhoaController(ILogger<HomeController> logger, IBenhAnNoiKhoaServices services, HospitalContext context, IConverter converter, ICompositeViewEngine viewEngine)
+        public BenhAnNgoaiTruRHMController(ILogger<HomeController> logger, IBenhAnNgoaiTruRHMServices services, HospitalContext context, IConverter converter, ICompositeViewEngine viewEngine)
         {
             _logger = logger;
             _services = services;
@@ -38,9 +38,9 @@ namespace ProjectBA.Controllers
         }
 
         [HttpPost("AddData")]
-        public async Task<IActionResult> AddData([FromBody] Benhannoikhoa benhannoikhoa)
+        public async Task<IActionResult> AddData([FromBody] Benhanngoaitrurhm benhanngoaitrurhm)
         {
-            var rs = await _services.ThemThongTin(benhannoikhoa);
+            var rs = await _services.ThemThongTin(benhanngoaitrurhm);
             return Ok(rs);
         }
     }
