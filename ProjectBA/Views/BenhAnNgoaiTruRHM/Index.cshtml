@@ -1,5 +1,1144 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Views/Shared/_LayoutPDF.cshtml";
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+    .custom-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        overflow: auto;
+    }
+
+
+    .custom-modal-content {
+        background-color: white;
+        margin: 2% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 95%;
+        max-width: 1400px;
+        height: 90%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .custom-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+
+        .custom-modal-header h2 {
+            margin: 0;
+        }
+
+    .custom-modal-close {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+    }
+
+    .custom-modal-body {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin-top: 20px;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    .row-infor {
+        font-size: 22px;
+    }
+
+    table th,
+    table td {
+        font-size: 18px !important;
+    }
+
+    table tr td {
+        padding: 3px !important;
+    }
+
+    table tr th {
+        padding: 4px 0px !important;
+    }
+
+    .inputCham {
+        width: 100%;
+        font-size: 13pt;
+        background-color: transparent;
+        border: none;
+        border-bottom: 2px dotted #000;
+        outline: none;
+        padding: 0;
+        margin-bottom: 5px;
+    }
+
+    .inputCheckBox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #000;
+        outline: none;
+        background-color: #fff;
+        display: inline-block;
+        text-align: center;
+        font-size: 13pt;
+    }
+
+    .inputTxt {
+        font-size: 13pt;
+        width: 100%;
+        height: 25px;
+    }
+
+    .input-lines {
+        display: block;
+        width: 100%;
+        border: none;
+        border-bottom: 2px dotted #000;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        padding: 5px 0;
+        font-size: 16px;
+        resize: none;
+        outline: none;
+    }
+</style>
+
+<h1>Danh sách bệnh án ngoại răng hàm mặt</h1>
+<!-- Nút mở modal -->
+<button onclick="openModal()" style="margin-bottom: 20px;">Thêm mới</button>
+
+<!-- Modal -->
+<div id="customModal" class="custom-modal">
+    <div class="custom-modal-content">
+        <div class="custom-modal-header">
+            <h2>Thêm mới bệnh án ngoại răng hàm mặt</h2>
+            <span class="custom-modal-close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="custom-modal-body">
+            <form id="baNgoaiTruRHMForm">
+                <div class="w-100 row-infor flex">
+                    <div class="flex-column w-25">
+                        <div class="flex w-100">
+                            <div class="text-start w-50">
+                                Cơ quan chủ quản:
+                            </div>
+                            <div class="w-40">
+                                <input class="inputCham" id="Tencoquanchuquan" name="Tencoquanchuquan" type="text"
+                                       placeholder="">
+                            </div>
+                        </div>
+                        <div class="flex w-100">
+                            <div class="text-start w-45">
+                                Cơ sở KB, CB:
+                            </div>
+                            <div class="w-45">
+                                <input class="inputCham" id="Tencosokbcb" name="Tencosokbcb" type="text" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-50">
+                        <h2 class="text-uppercase text-center mb-15 mt-15" style="font-weight: 700;">
+                            BỆNH ÁN NGOẠI TRÚ <br> RĂNG HÀM MẶT
+                        </h2>
+                    </div>
+                    <div class="text-end w-25 fs-22">
+                        <div>
+                            <em>MS: BA-18&nbsp;</em>
+                        </div>
+                    </div>
+                </div>
+                <div class="title card">
+                    <div class="w-100">
+                        <h3 class="text-uppercase">
+                            A. THÔNG TIN CHUNG </br>
+                            I. HÀNH CHÍNH
+                        </h3>
+                    </div>
+                </div>
+                <div class="row-infor card text-start">
+                    <div class="row-info">
+                        <div class="flex justify-content-between w-100">
+                            <div class="w-15">
+                                1. Họ và tên <i>(In hoa)</i>:
+                            </div>
+                            <div class="w-85">
+                                <input class="inputCham" id="hoVaTen" name="hoVaTen" type="text" placeholder="">
+                            </div>
+                        </div>
+                        <div class="flex justify-content-between w-100">
+                            <div class="w-50">
+                                <div class="flex">
+                                    <div class="w-20 text-start">
+                                        2. Ngày sinh:
+                                    </div>
+                                    <div class="w-65">
+                                        <input class="inputCham" id="ngaySinh" name="ngaySinh" type="text"
+                                               placeholder="">
+                                    </div>
+                                    <div class="w-30 flex justify-content-start">
+                                        <div class="w-30 text-start">
+                                            &nbsp;Tuổi:
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-45">
+                                <div class="flex">
+                                    <div class="w-30 text-start">
+                                        3. Giới tính:
+                                    </div>
+                                    <div class="w-20 flex justify-content-end">
+                                        <input class="inputCheckBox" type="checkbox" placeholder="">
+                                        Nam
+                                    </div>
+                                    <div class="w-20 flex justify-content-end">
+                                        <input class="inputCheckBox" type="checkbox" placeholder="">
+                                        Nữ
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-between w-100">
+                            <div class="w-55">
+                                <div class="flex">
+                                    <div class="w-17 text-start">
+                                        4. Điện thoại:
+                                    </div>
+                                    <div class="w-50">
+                                        <input class="inputCham" id="dienThoai" name="dienThoai" type="text"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-45">
+                                <div class="flex">
+                                    <div class="w-25">
+                                        5. Nghề nghiệp:
+                                    </div>
+                                    <div class="w-75">
+                                        <input class="inputCham" id="ngheNghiep" name="ngheNghiep" type="text"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-between w-100">
+                            <div class="w-55">
+                                <div class="flex">
+                                    <div class="w-15 text-start">
+                                        6. Dân tộc:
+                                    </div>
+                                    <div class="flex w-45">
+                                        <input class="inputCham" id="danToc" name="danToc" type="text" placeholder="">
+                                    </div>
+                                    <div class="w-30 flex justify-content-start">
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-45">
+                                <div class="flex">
+                                    <div class="w-20">
+                                        7. Quốc tịch:
+                                    </div>
+                                    <div class="w-68">
+                                        <input class="inputCham" id="quocTich" name="quocTich" type="text"
+                                               placeholder="">
+                                    </div>
+                                    <div class="w-10 flex justify-content-between">
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-between w-100">
+                            <div class="w-55">
+                                <div class="flex">
+                                    <div class="flex w-50">
+                                        <div class="w-45">
+                                            8. Địa chỉ: Số nhà
+                                        </div>
+                                        <div class="w-55">
+                                            <input class="inputCham" id="soNha" name="soNha" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="flex w-50">
+                                        <div class="w-25">
+                                            Thôn, phố
+                                        </div>
+                                        <div class="w-40">
+                                            <input class="inputCham" id="thonPho" name="thonPho" type="text"
+                                                   placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-45">
+                                <div class="flex">
+                                    <div class="w-20">
+                                        Xã, phường:
+                                    </div>
+                                    <div class="w-58">
+                                        <input class="inputCham" id="xaPhuong" name="xaPhuong" type="text"
+                                               placeholder="">
+                                    </div>
+                                    <div class="w-20 flex justify-content-between">
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-between w-100">
+                            <div class="w-55">
+                                <div class="flex w-100">
+                                    <div class="w-20 text-start">
+                                        Huyện (Q, Tx):
+                                    </div>
+                                    <div class="w-45">
+                                        <input class="inputCham" id="huyen" name="huyen" type="text" placeholder="">
+                                    </div>
+                                    <div class="w-25 flex justify-content-start">
+                                        <div class="w-30 text-start"></div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-15 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-45">
+                                <div class="flex w-100">
+                                    <div class="w-25 text-start">
+                                        Tỉnh, thành phố:&nbsp;
+                                    </div>
+                                    <div class="w-65">
+                                        <input class="inputCham" id="thanhPho" name="thanhPho" type="text"
+                                               placeholder="">
+                                    </div>
+                                    <div class="w-5 flex justify-content-between">
+                                        <div class="w-5 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                        <div class="w-5 text-start">
+                                            <input class="inputCheckBox" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex w-100">
+                            <div class="w-15">
+                                9. Đối tượng:
+                            </div>
+                            <div class="w-13">
+                                <input class="inputCheckBox" id="bhyt" name="doiTuong" value="BHYT" type="checkbox"
+                                       placeholder="">
+                                BHYT
+                            </div>
+                            <div class="w-13">
+                                <input class="inputCheckBox" id="thuPhi" name="doiTuong" value="Thu Phí" type="checkbox"
+                                       placeholder="">
+                                Thu phí
+                            </div>
+                            <div class="w-13">
+                                <input class="inputCheckBox" id="mien" name="doiTuong" value="Miễn" type="checkbox"
+                                       placeholder="">
+                                Miễn
+                            </div>
+                            <div class="w-13">
+                                <input class="inputCheckBox" id="khac" name="doiTuong" value="Khác" type="checkbox"
+                                       placeholder="">
+                                Khác
+                            </div>
+                        </div>
+                        <div class="flex w-50">
+                            <div class="w-25">
+                                10. Số thẻ BHYT:
+                            </div>
+                            <div class="w-75">
+                                <input class="inputCham" id="soTheBHYT" name="soTheBHYT" type="text" placeholder="">
+                            </div>
+                        </div>
+                        <div class="flex w-100">
+                            <div class="w-32">
+                                11. Số Căn cước/Hộ chiếu/Số định danh cá nhân:
+                            </div>
+                            <div class="w-53">
+                                <input class="inputCham" id="canCuoc" name="canCuoc" type="text" placeholder="">
+                            </div>
+                        </div>
+                        <div class="flex w-100">
+                            <div class="w-32">
+                                12. Họ và tên thân nhân của NB khi cần báo tin:
+                            </div>
+                            <div class="w-25">
+                                <input class="inputCham" id="hoTenThanNha" name="hoTenThanNhan" type="text"
+                                       placeholder="">
+                            </div>
+                            <div class="w-8">
+                                Điện thoại:
+                            </div>
+                            <div class="w-20">
+                                <input class="inputCham" id="dienThoaiThanNhan" name="dienThoaiThanNhan" type="text"
+                                       placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title card">
+                    <div class="w-100">
+                        <h3 class="text-uppercase">
+                            B. THÔNG TIN KHÁM BỆNH
+                        </h3>
+                    </div>
+                </div>
+                <div class="row-infor card text-start">
+                    <div class="row-info">
+                        <div class="flex w-100">
+                            <div class="w-30" style="font-size: 20px;">
+                                <b>I. LÝ DO VÀO VIỆN, VẤN ĐỀ SỨC KHỎE:</b>
+                            </div>
+                            <div class="w-70">
+                                <input class="inputCham" type="text" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title card">
+                    <div class="w-100">
+                        <h3 class="text-uppercase">
+                            II. Hỏi bệnh
+                        </h3>
+                    </div>
+                </div>
+                <div class="row-infor card text-start">
+                    <div class="row-info">
+                        <div class="flex-column w-100">
+                            <div class="flex w-100">
+                                <b>1. Quá trình bệnh lý và diễn biến lâm sàng:</b>
+                                <i>(Đặc điểm khởi phát, các triệu chứng lâm sàng, diễn biến bệnh...)</i>
+                            </div>
+                            <div class="flex w-100">
+                                <textarea class="input-lines" rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div class="flex w-100 text-bold">
+                            2. Tiền sử có liên quan đến tình trạng bệnh lần này:
+                        </div>
+                        <div class="flex w-100">
+                            <div class="w-15 text-bold">
+                                Dị ứng:
+                            </div>
+                            <div class="w-18">
+                                <input class="inputCheckBox" type="checkbox" placeholder="">
+                                Không
+                            </div>
+                            <div class="flex w-65">
+                                <div class="w-22">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Có, ghi rõ:
+                                </div>
+                                <div class="w-80">
+                                    <input class="inputCham" type="text" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex w-100">
+                            <div class="w-15 text-bold">
+                                Bản thân:
+                            </div>
+                            <div class="w-18">
+                                <input class="inputCheckBox" type="checkbox" placeholder="">
+                                Không
+                            </div>
+                            <div class="flex w-65">
+                                <div class="w-22">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Có, ghi rõ:
+                                </div>
+                                <div class="w-80">
+                                    <input class="inputCham" type="text" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex w-100">
+                            <div class="w-15 text-bold">
+                                Gia đình:
+                            </div>
+                            <div class="w-18">
+                                <input class="inputCheckBox" type="checkbox" placeholder="">
+                                Không
+                            </div>
+                            <div class="flex w-65">
+                                <div class="w-22">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Có, ghi rõ:
+                                </div>
+                                <div class="w-80">
+                                    <input class="inputCham" type="text" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title card">
+                    <div class="w-100">
+                        <h3 class="text-uppercase">
+                            III. KHÁM BỆNH
+                        </h3>
+                    </div>
+                </div>
+                <div class="row-infor card text-start">
+                    <div class="row-info">
+                        <div class="flex w-100">
+                            <div class="flex-column w-70">
+                                <div class="flex w-100">
+                                    <div class="w-22 text-bold">
+                                        1. Toàn thân:
+                                    </div>
+                                    <div class="w-25">
+                                        <input class="inputCheckBox" type="checkbox" placeholder="">
+                                        Bình thường
+                                    </div>
+                                    <div class="w-50">
+                                        <input class="inputCheckBox" type="checkbox" placeholder="">
+                                        Bất thường, ghi rõ:
+                                    </div>
+                                </div>
+                                <div class="flex w-90">
+                                    <textarea class="input-lines" rows="6"></textarea>
+                                </div>
+                            </div>
+                            <div class="flex-column w-30 border fs-18 " style="font-style: italic;">
+                                <div class="flex ml-5">
+                                    <div class="w-17">
+                                        Mạch:
+                                    </div>
+                                    <div class="w-30">
+                                        <input class="inputCham" type="text" placeholder="">
+                                    </div>
+                                    <div class="w-20">
+                                        lần/ph
+                                    </div>
+                                </div>
+                                <div class="flex ml-5">
+                                    <div class="w-26">
+                                        Nhiệt độ:
+                                    </div>
+                                    <div class="w-30">
+                                        <input class="inputCham" type="text" placeholder="">
+                                    </div>
+                                    <div class="w-20">
+                                        ℃
+                                    </div>
+                                </div>
+                                <div class="flex ml-5">
+                                    <div class="w-27">
+                                        Huyết áp:
+                                    </div>
+                                    <div class="w-30">
+                                        <input class="inputCham" type="text" placeholder="">
+                                    </div>
+                                    <div class="w-20">
+                                        mmHg
+                                    </div>
+                                </div>
+                                <div class="flex ml-5">
+                                    <div class="w-27">
+                                        Nhịp thở:
+                                    </div>
+                                    <div class="w-30">
+                                        <input class="inputCham" type="text" placeholder="">
+                                    </div>
+                                    <div class="w-20">
+                                        lần/ph
+                                    </div>
+                                </div>
+                                <div class="flex ml-5">
+                                    <div class="w-29">
+                                        Cân nặng:
+                                    </div>
+                                    <div class="w-30">
+                                        <input class="inputCham" type="text" placeholder="">
+                                    </div>
+                                    <div class="w-20">
+                                        Kg
+                                    </div>
+                                </div>
+                                <div class="flex ml-5">
+                                    <div class="w-30">
+                                        Chiều cao:
+                                    </div>
+                                    <div class="w-30">
+                                        <input class="inputCham" type="text" placeholder="">
+                                    </div>
+                                    <div class="w-20">
+                                        Cm
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-25 text-bold">2. Khám chuyên khoa</div>
+                        <div class="flex">
+                            <div class="w-15">
+                                Ngoài miệng:
+                            </div>
+                            <div class="w-18">
+                                <input class="inputCheckBox" type="checkbox" placeholder="">
+                                Bình thường
+                            </div>
+                            <div class="w-65">
+                                <input class="inputCheckBox" type="checkbox" placeholder="">
+                                Bất thường, ghi rõ:
+                            </div>
+                        </div>
+                        <div class="flex w-100">
+                            <textarea class="input-lines" rows="5"></textarea>
+                        </div>
+                        <div class="flex">
+                            <div class="w-15">
+                                Trong miệng:
+                            </div>
+                            <div class="w-18">
+                                <input class="inputCheckBox" type="checkbox" placeholder="">
+                                Bình thường
+                            </div>
+                            <div class="w-65">
+                                <input class="inputCheckBox" type="checkbox" placeholder="">
+                                Bất thường, ghi rõ:
+                            </div>
+                        </div>
+                        <div class="flex w-100">
+                            <textarea class="input-lines" rows="5"></textarea>
+                        </div>
+
+                        <div class="flex-column w-100">
+                            <div class="flex">
+                                <div class="w-44 text-bold">
+                                    3. Các xét nghiệm, cận lâm sàng cần làm:
+                                </div>
+                                <div class="w-11">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Không
+                                </div>
+                                <div class="w-30">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Có, ghi rõ:
+                                </div>
+                            </div>
+                            <div class="flex w-100">
+                                <textarea class="input-lines" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="flex-column w-100">
+                            <div class="flex text-bold">
+                                4. Tóm tắt bệnh án:
+                            </div>
+                            <div class="flex w-100">
+                                <textarea class="input-lines" rows="6"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title card">
+                    <div class="w-100">
+                        <h3 class="text-uppercase">
+                            IV. CHẨN ĐOÁN (Tên bệnh kèm theo mã ICD)
+                        </h3>
+                    </div>
+                </div>
+                <div class="row-infor card">
+                    <div class="row-info">
+                        <div class="flex w-100 ml-5 mt-5">
+                            <div class="w-8">
+                                Bệnh chính:
+                            </div>
+                            <div class="w-77">
+                                <input class="inputCham" type="text" placeholder="">
+                            </div>
+                            <div class="w-13 ml-5">
+                                <input class="inputTxt" type="text" placeholder="">
+                            </div>
+                        </div>
+                        <div class="flex w-100 ml-5 mt-5">
+                            <div class="w-16">
+                                Bệnh kèm theo:(nếu có)
+                            </div>
+                            <div class="w-69">
+                                <input class="inputCham" type="text" placeholder="">
+                            </div>
+                            <div class="w-13 ml-5">
+                                <input class="inputTxt" type="text" placeholder="">
+                            </div>
+                        </div>
+                        <div class="flex w-100 ml-5 mt-5">
+                            <div class="w-14">
+                                Biến chứng:(nếu có)
+                            </div>
+                            <div class="w-71">
+                                <input class="inputCham" type="text" placeholder="">
+                            </div>
+                            <div class="w-13 ml-5">
+                                <input class="inputTxt" type="text" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title card">
+                    <div class="flex-column w-100">
+                        <div class="w-100">
+                            <h3 class="text-uppercase">
+                                V. KẾ HOẠCH ĐIỀU TRỊ
+                            </h3>
+                        </div>
+                        <div class="flex w-100">
+                            <textarea class="input-lines" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="title card">
+                    <div class="w-100">
+                        <h3 class="text-uppercase">
+                            VI. QUÁ TRÌNH ĐIỀU TRỊ
+                        </h3>
+                    </div>
+                </div>
+                <div class="row-infor">
+                    <div class="table">
+                        <table class="w-100">
+                            <thead>
+                                <tr class="text-center">
+                                    <th colspan="2">Ngày</th>
+                                    <th colspan="3">Diễn biến bệnh </th>
+                                    <th colspan="2">Xử trí</th>
+                                    <th colspan="3">Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">Test</td>
+                                    <td colspan="3"></td>
+                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Test</td>
+                                    <td colspan="3"></td>
+                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Test</td>
+                                    <td colspan="3"></td>
+                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Test</td>
+                                    <td colspan="3"></td>
+                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="title card">
+                    <div class="w-100">
+                        <h3 class="text-uppercase">
+                            VII. THỜI GIAN ĐIỀU TRỊ
+                        </h3>
+                    </div>
+                </div>
+                <div class="row-infor card text-start">
+                    <div class="row-info">
+                        <div class="flex w-100">
+                            <div class="w-11">
+                                Điều trị từ ngày&nbsp;
+                            </div>
+                            <div class="flex w-15">
+                                <input class="inputCham" type="date" placeholder="">&nbsp;
+                            </div>
+                            đến ngày&nbsp;
+                            <div class="flex w-15">
+                                <input class="inputCham" type="date" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-avoid mt-2">
+                    <div class="row-infor flex w-100 text-center mt-25">
+                        <div class="w-50">
+                            <div class="justify-content-center flex">
+                                <em>
+                                    Ngày&nbsp;@DateTime.Now.Day&nbsp;tháng&nbsp;@DateTime.Now.Month&nbsp;năm&nbsp;@DateTime.Now.Year
+                                </em>
+                            </div>
+                            <div class="text-bold justify-content-center">
+                                Bác sỹ điều trị
+                            </div>
+                            <div class="fs-19 justify-content-center mb-kyTen mt-5">
+                                <em>(Ký, ghi rõ họ tên)</em>
+                            </div>
+                            <div class="flex justify-content-center ">
+                            </div>
+                        </div>
+                        <div class="w-50">
+                            <div class="justify-content-center flex">
+                                <em>
+                                    Ngày&nbsp;@DateTime.Now.Day&nbsp;tháng&nbsp;@DateTime.Now.Month&nbsp;năm&nbsp;@DateTime.Now.Year
+                                </em>
+                            </div>
+                            <div class="text-bold justify-content-center">
+                                Đại diện cơ sở KB, CB
+                            </div>
+                            <div class="fs-19 justify-content-center mb-kyTen mt-5">
+                                <em>(Ký, đóng dấu) </em>
+                            </div>
+                            <div class="flex justify-content-center ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title card" style="height: 5%;">
+                </div>
+                <div class="title card mt-10">
+                    <div class="w-100">
+                        <h3 class="text-uppercase">
+                            C. TỔNG KẾT BỆNH ÁN
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="row-infor card">
+                    <div class="row-info">
+                        <div class="flex-column w-100">
+                            <div class="flex w-100">
+                                <b>1. Tóm tắt quá trình bệnh lý và diễn biến lâm sàng</b>
+                                <i>(Đặc điểm khởi phát, các triệu chứng lâm sàng, diễn biến bệnh...):</i>
+                            </div>
+                            <div class="flex w-100">
+                                <textarea class="input-lines" rows="6"></textarea>
+                            </div>
+                        </div>
+                        <div class="flex-column w-100">
+                            <div class="flex w-100">
+                                <b>2. Những dấu hiệu lâm sàng chính được ghi nhận</b>
+                                <i>(có giá trị chẩn đoán trong quá trình điều trị):</i>
+                            </div>
+                            <div class="flex w-100">
+                                <textarea class="input-lines" rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div class="flex w-100">
+                            <b>3. Tóm tắt kết quả cận lâm sàng có giá trị chẩn đoán</b>
+                        </div>
+                        <div class="flex-column w-100">
+                            <div class="flex">
+                                <div class="w-25">
+                                    Nội khoa:
+                                </div>
+                                <div class="w-15">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Không
+                                </div>
+                                <div class="flex w-35">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Có,&nbsp;ghi rõ:
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="w-100">
+                                    <textarea class="input-lines" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column w-100">
+                            <div class="flex">
+                                <div class="w-25">
+                                    Phẫu thuật, thủ thuật:
+                                </div>
+                                <div class="flex w-30">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Có, ghi rõ phương pháp:
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="w-100">
+                                    <textarea class="input-lines" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column w-100">
+                            <b>5. Tình trạng ra viện:</b>
+                            <div class="flex">
+                                <div class="w-25"></div>
+                                <div class="w-15">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Khỏi
+                                </div>
+                                <div class="w-10">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Đỡ
+                                </div>
+                                <div class="flex w-20">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Không thay đổi
+                                </div>
+                                <div class="flex w-20">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Nặng hơn
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="w-25"></div>
+                                <div class="w-15">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Tử vong
+                                </div>
+                                <div class="flex w-30">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Tiên lượng nặng xin về
+                                </div>
+                                <div class="flex w-25">
+                                    <input class="inputCheckBox" type="checkbox" placeholder="">
+                                    Chưa xác định.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column w-100">
+                            <div class="flex w-100">
+                                <b>6. Hướng điều trị và các chế độ tiếp theo:</b>
+                            </div>
+                            <div class="flex w-100">
+                                <textarea class="input-lines" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-avoid mt-2">
+                    <div class="row-infor flex w-100 text-center mt-25">
+                        <div class="w-50">
+                        </div>
+                        <div class="w-50">
+                            <div class="justify-content-center flex">
+                                <em>
+                                    Ngày&nbsp;@DateTime.Now.Day&nbsp;tháng&nbsp;@DateTime.Now.Month&nbsp;năm&nbsp;@DateTime.Now.Year
+                                </em>
+                            </div>
+                            <div class="text-bold justify-content-center">
+                                Bác sỹ điều trị
+                            </div>
+                            <div class="fs-19 justify-content-center mb-kyTen mt-5">
+                                <em>(Ký, ghi rõ họ tên)</em>
+                            </div>
+                            <div class="flex justify-content-center ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit">Thêm</button>
+            </form>
+        </div>
+    </div>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Họ và Tên</th>
+            <th>Giới tính</th>
+            <th>Ngày sinh</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody id="BANgoaiTruRHMTable">
+    </tbody>
+</table>
+
+<script>
+    // Load data from API
+    function loadBANgoaiTruRHM() {
+        $.ajax({
+            url: '/QuanLy/BA_NgoaiTruRHM/DanhSachBenhAnNgoaiTruRHM',
+            type: 'POST',
+            success: function (data) {
+                let rows = '';
+                data.forEach(ngoaiTruRHM => {
+                    rows += `
+                            <tr>
+                                <td>${ngoaiTruRHM.benhNhanId}</td>
+                                <td>${ngoaiTruRHM.hoVaTen}</td>
+                                <td>${ngoaiTruRHM.gioiTinh}</td>
+                                <td>${ngoaiTruRHM.ngaySinh}</td>
+                                <td>
+                                    <button onclick="editNgoaiTruRHM(${ngoaiTruRHM.benhNhanId})">Sửa</button>
+                                    <button onclick="deleteNgoaiTruRHM(${ngoaiTruRHM.benhNhanId})">Xóa</button>
+                                    <button onclick="pdfNgoaiTruRHM(${ngoaiTruRHM.benhNhanId})">In PDF</button>
+                                </td>
+                            </tr>
+                        `;
+                });
+                $('#BANgoaiTruRHMTable').html(rows);
+            },
+            error: function (xhr) {
+                alert('Lỗi khi tải dữ liệu: ' + xhr.responseText);
+            }
+        });
+    }
+    $('#baNgoaiTruRHMForm').on('submit', function (e) {
+        e.preventDefault();
+        const gioiTinh = $('input[name="gioiTinh"]:checked').val();
+
+        const ngoaiTruRHM = {
+            hoVaTen: $('#hoVaTen').val(),
+            gioiTinh: gioiTinh,
+            ngaySinh: $('#ngaySinh').val(),
+            ghiChu: $('#ghiChu').val()
+        };
+
+        $.ajax({
+            url: '/QuanLy/Person/ThemPerson',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(ngoaiTruRHM),
+            success: function (response) {
+                alert('Thêm thành công!');
+                loadBANgoaiTruRHM();
+                $('#baNgoaiTruRHMForm')[0].reset(); // Reset form
+                closeModal();
+            },
+            error: function (xhr) {
+                alert('Lỗi khi thêm dữ liệu: ' + xhr.responseText);
+            }
+        });
+    });
+
+
+    // Delete person
+    function deleteNgoaiTruRHM(id) {
+        if (!confirm('Bạn có chắc chắn muốn xóa?')) return;
+
+        $.ajax({
+            url: `/api/persons/${id}`,
+            type: 'DELETE',
+            success: function () {
+                alert('Xóa thành công!');
+                loadBANgoaiTruRHM();
+            },
+            error: function (xhr) {
+                alert('Lỗi khi xóa: ' + xhr.responseText);
+            }
+        });
+    }
+
+    // Edit person (populate form with data)
+    function editNgoaiTruRHM(id) {
+        $.ajax({
+            url: `/api/persons/${id}`,
+            type: 'GET',
+            success: function (person) {
+                $('#fullName').val(person.fullName);
+                $('#gender').val(person.gender);
+                $('#birthDate').val(person.birthDate);
+                $('#note').val(person.note);
+            },
+            error: function (xhr) {
+                alert('Lỗi khi tải dữ liệu: ' + xhr.responseText);
+            }
+        });
+    }
+
+    // Refresh button
+    $('#btnRefresh').on('click', function () {
+        $('#baNgoaiTruRHMForm')[0].reset();
+    });
+
+    // Load persons on page load
+    $(document).ready(function () {
+        loadBANgoaiTruRHM();
+    });
+</script>
+
+<script>
+    // Mở modal
+    function openModal() {
+        document.getElementById('customModal').style.display = 'block';
+    }
+
+    // Đóng modal
+    function closeModal() {
+        document.getElementById('customModal').style.display = 'none';
+    }
+
+    // Đóng modal khi nhấn vào bất kỳ nơi nào bên ngoài nội dung modal
+    window.onclick = function (event) {
+        const modal = document.getElementById('customModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+</script>
