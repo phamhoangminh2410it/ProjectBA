@@ -49,20 +49,6 @@ namespace ProjectBA.Controllers
             return Ok(rs);
         }
 
-        /*public static string ConvertImageToBase64(IWebHostEnvironment h, string imagePath)
-        {
-            byte[] imageBytes = System.IO.File.ReadAllBytes(h.WebRootPath + imagePath);
-            string base64String = Convert.ToBase64String(imageBytes);
-
-            return base64String;
-        }
-        public static string pathImageToString(string imagePath)
-        {
-            byte[] imageBytes = System.IO.File.ReadAllBytes(_hostingEnvironment.WebRootPath + imagePath);
-            string base64String = Convert.ToBase64String(imageBytes);
-
-            return base64String;
-        }
         public static string ConvertViewToString(ControllerContext controllerContext, PartialViewResult pvr, ICompositeViewEngine _viewEngine)
         {
             using (StringWriter writer = new StringWriter())
@@ -76,10 +62,10 @@ namespace ProjectBA.Controllers
             }
         }
 
-        [HttpPost("PDFBANgoaiTruMat")]
-        public async Task<dynamic> PDFBANgoaiTruMat()
+        [HttpPost("PDFBANgoaiKhoa")]
+        public async Task<dynamic> PDFBANgoaiKhoa()
         {
-            var data = await _services.ThongTin;
+            var data = await _services.ThongTin();
 
             var doc = new HtmlToPdfDocument()
             {
@@ -97,12 +83,7 @@ namespace ProjectBA.Controllers
                 },
             },
             };
-            ViewBag.matPhai1 = ConvertImageToBase64(_hostingEnvironment, "/img/matphai.png");
-            ViewBag.matTrai1 = ConvertImageToBase64(_hostingEnvironment, "/img/mattrai.png");
-
-            ViewBag.matPhai2 = ConvertImageToBase64(_hostingEnvironment, "/img/matphai2.jpeg");
-            ViewBag.matTrai2 = ConvertImageToBase64(_hostingEnvironment, "/img/mattrai2.jpeg");
-            PartialViewResult partialViewResult = PartialView("PDFBANgoaiTruMat", data);
+            PartialViewResult partialViewResult = PartialView("PDFBANgoaiKhoa", data);
             string viewContent = ConvertViewToString(ControllerContext, partialViewResult, _viewEngine);
 
             doc.Objects.Add(new ObjectSettings()
@@ -119,7 +100,7 @@ namespace ProjectBA.Controllers
 
             var pdfBytes = _converter.Convert(doc);
             return File(pdfBytes, "application/pdf", "output.pdf");
-        }*/
+        }
 
     }
 }
