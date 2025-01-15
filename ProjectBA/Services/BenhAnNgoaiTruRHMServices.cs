@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectBA.Models.Entities;
+using System.Net.NetworkInformation;
+using System;
 
 namespace ProjectBA.Services
 {
@@ -8,6 +10,8 @@ namespace ProjectBA.Services
     {
         Task<dynamic> ThongTin();
         Task<dynamic> ThemThongTin([FromBody] Benhanngoaitrurhm benhanngoaitrurhm);
+        Task<dynamic> CapNhatThongTin([FromBody] Benhanngoaitrurhm x);
+        Task<dynamic> Xoa(string mabenhan);
     }
 
     public class BenhAnNgoaiTruRHMServices : IBenhAnNgoaiTruRHMServices
@@ -17,6 +21,28 @@ namespace ProjectBA.Services
         public BenhAnNgoaiTruRHMServices(HospitalContext context)
         {
             _context = context;
+        }
+
+        public async Task<dynamic> Xoa(string mabenhan)
+        {
+            try
+            {
+                var data = await _context.Benhanngoaitrurhms.FindAsync(mabenhan);
+                _context.Benhanngoaitrurhms.Remove(data);
+                await _context.SaveChangesAsync();
+                return new
+                {
+                    status = 200,
+                    message = "Thanh cong"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new
+                {
+                    message = ex.Message
+                };
+            }
         }
 
         public async Task<dynamic> ThemThongTin([FromBody] Benhanngoaitrurhm benhanngoaitrurhm)
@@ -39,21 +65,104 @@ namespace ProjectBA.Services
             }
         }
 
-        //public async Task<dynamic> CapNhatThongTin([FromBody] Benhanngoaikhoa benhanngoaikhoa)
-        //{
-        //    try
-        //    {
-        //        Benhanngoaikhoa ba = await _context.Benhanngoaikhoas.FindAsync(benhanngoaikhoa.Mabenhan);
-        //        ba.Macoquanchuquan = benhanngoaikhoa.Macoquanchuquan;
-
-        //        _context.Benhanngoaikhoas.Update(ba);
-        //        await _context.SaveChangesAsync();
-        //        return new
-        //        {
-        //            data = ba
-        //        };
-        //    }
-        //}
+        public async Task<dynamic> CapNhatThongTin([FromBody] Benhanngoaitrurhm x)
+        {
+            try
+            {
+                Benhanngoaitrurhm ba = await _context.Benhanngoaitrurhms.FindAsync(x.Mabenhan);
+                ba.Macoquanchuquan = x.Macoquanchuquan;
+                ba.Tencoquanchuquan = x.Tencoquanchuquan;
+                ba.Macosokbcb = x.Macosokbcb;
+                ba.Tencosokbcb = x.Tencosokbcb;
+                ba.Hovaten = x.Hovaten;
+                ba.Ngaysinh = x.Ngaysinh;
+                ba.Tuoi = x.Tuoi;
+                ba.Gioitinh = x.Gioitinh;
+                ba.Dienthoai = x.Dienthoai;
+                ba.Nghenghiep = x.Nghenghiep;
+                ba.Dantoc = x.Dantoc;
+                ba.Madantoc = x.Madantoc;
+                ba.Quoctich = x.Quoctich;
+                ba.Maquoctich = x.Maquoctich;
+                ba.Sonha = x.Sonha;
+                ba.Thonpho = x.Thonpho;
+                ba.Xaphuong = x.Xaphuong;
+                ba.Maxaphuong = x.Maxaphuong;
+                ba.Huyen = x.Huyen;
+                ba.Mahuyen = x.Mahuyen;
+                ba.Thanhpho = x.Thanhpho;
+                ba.Mathanhpho = x.Mathanhpho;
+                ba.Doituong = x.Doituong;
+                ba.Sothebhyt = x.Sothebhyt;
+                ba.Cancuoc = x.Cancuoc;
+                ba.Hotenthannhan = x.Hotenthannhan;
+                ba.Dienthoaithannhan = x.Dienthoaithannhan;
+                ba.Lydovaovien = x.Lydovaovien;
+                ba.Dienbienlamsang = x.Dienbienlamsang;
+                ba.Diung = x.Diung;
+                ba.Motadiung = x.Motadiung;
+                ba.Banthan = x.Banthan;
+                ba.Motabanthan = x.Motabanthan;
+                ba.Giadinh = x.Giadinh;
+                ba.Motagiadinh = x.Motagiadinh;
+                ba.Toanthan = x.Toanthan;
+                ba.Motatoanthan = x.Motatoanthan;
+                ba.Mach = x.Mach;
+                ba.Nhietdo = x.Nhietdo;
+                ba.Huyetap = x.Huyetap;
+                ba.Nhiptho = x.Nhiptho;
+                ba.Cannang = x.Cannang;
+                ba.Chieucao = x.Chieucao;
+                ba.Ngoaimieng = x.Ngoaimieng;
+                ba.Motangoaimieng = x.Motangoaimieng;
+                ba.Trongmieng = x.Trongmieng;
+                ba.Motatrongmieng = x.Motatrongmieng;
+                ba.Xetnghiemlamsang = x.Xetnghiemlamsang;
+                ba.Motaxetnghiemlamsang = x.Motaxetnghiemlamsang;
+                ba.Tomtatbenhan = x.Tomtatbenhan;
+                ba.Benhchinh = x.Benhchinh;
+                ba.Mabenhchinh = x.Mabenhchinh;
+                ba.Benhkemtheo = x.Benhkemtheo;
+                ba.Mabenhkemtheo = x.Mabenhkemtheo;
+                ba.Bienchung = x.Bienchung;
+                ba.Mabienchung = x.Mabienchung;
+                ba.Kehoachdieutri = x.Kehoachdieutri;
+                ba.Ngaydieutri = x.Ngaydieutri;
+                ba.Dienbienbenh = x.Dienbienbenh;
+                ba.Xutri = x.Xutri;
+                ba.Ghichu = x.Ghichu;
+                ba.Thoigiandieutritungay = x.Thoigiandieutritungay;
+                ba.Thoigiandieutridenngay = x.Thoigiandieutridenngay;
+                ba.Thoigianbacsidieutriky = x.Thoigianbacsidieutriky;
+                ba.Bacsidieutri = x.Bacsidieutri;
+                ba.Thoigiandaidiencskbcbky = x.Thoigiandaidiencskbcbky;
+                ba.Daidiencskbcb = x.Daidiencskbcb;
+                ba.Dienbiemls = x.Dienbiemls;
+                ba.Dauhieulamsang = x.Dauhieulamsang;
+                ba.Tomtatketquaxetnghiem = x.Tomtatketquaxetnghiem;
+                ba.Noikhoa = x.Noikhoa;
+                ba.Motanoikhoa = x.Motanoikhoa;
+                ba.Phauthuatthuthuat = x.Phauthuatthuthuat;
+                ba.Motaphauthuatthuthuat = x.Motaphauthuatthuthuat;
+                ba.Tinhtrangravien = x.Tinhtrangravien;
+                ba.Huongdieutri = x.Huongdieutri;
+                ba.Thoigianbacsidieutrikytk = x.Thoigianbacsidieutrikytk;
+                ba.Bacsidieutritk = x.Bacsidieutritk;
+                _context.Benhanngoaitrurhms.Update(ba);
+                await _context.SaveChangesAsync();
+                return new
+                {
+                    data = ba
+                };
+            }
+            catch (Exception ex)
+            {
+                return new
+                {
+                    message = ex.Message,
+                };
+            }
+        }
 
         public async Task<dynamic> ThongTin()
         {

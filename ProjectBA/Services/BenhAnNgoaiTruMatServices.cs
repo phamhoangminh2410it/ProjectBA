@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectBA.Models.Entities;
+using System.Net.NetworkInformation;
 
 namespace ProjectBA.Services
 {
@@ -8,6 +9,8 @@ namespace ProjectBA.Services
     {
         Task<dynamic> ThongTin();
         Task<dynamic> ThemThongTin([FromBody] Benhanngoaitrumat benhanngoaitrumat);
+        Task<dynamic> CapNhatThongTin([FromBody] Benhanngoaitrumat x);
+        Task<dynamic> Xoa(string mabenhan);
     }
 
     public class BenhAnNgoaiTruMatServices : IBenhAnNgoaiTruMatServices
@@ -17,6 +20,28 @@ namespace ProjectBA.Services
         public BenhAnNgoaiTruMatServices(HospitalContext context)
         {
             _context = context;
+        }
+
+        public async Task<dynamic> Xoa(string mabenhan)
+        {
+            try
+            {
+                var data = await _context.Benhanngoaitrumats.FindAsync(mabenhan);
+                _context.Benhanngoaitrumats.Remove(data);
+                await _context.SaveChangesAsync();
+                return new
+                {
+                    status = 200,
+                    message = "Thanh cong"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new
+                {
+                    message = ex.Message
+                };
+            }
         }
 
         public async Task<dynamic> ThemThongTin([FromBody] Benhanngoaitrumat benhanngoaitrumat)
@@ -39,21 +64,163 @@ namespace ProjectBA.Services
             }
         }
 
-        //public async Task<dynamic> CapNhatThongTin([FromBody] Benhanngoaikhoa benhanngoaikhoa)
-        //{
-        //    try
-        //    {
-        //        Benhanngoaikhoa ba = await _context.Benhanngoaikhoas.FindAsync(benhanngoaikhoa.Mabenhan);
-        //        ba.Macoquanchuquan = benhanngoaikhoa.Macoquanchuquan;
+        public async Task<dynamic> CapNhatThongTin([FromBody] Benhanngoaitrumat x)
+        {
+            try
+            {
+                Benhanngoaitrumat ba = await _context.Benhanngoaitrumats.FindAsync(x.Mabenhan);
+                ba.Macoquanchuquan = x.Macoquanchuquan;
+                ba.Tencoquanchuquan = x.Tencoquanchuquan;
+                ba.Macosokbcb = x.Macosokbcb;
+                ba.Tencosokbcb = x.Tencosokbcb;
+                ba.Hovaten = x.Hovaten;
+                ba.Ngaysinh = x.Ngaysinh;
+                ba.Tuoi = x.Tuoi;
+                ba.Gioitinh = x.Gioitinh;
+                ba.Dienthoai = x.Dienthoai;
+                ba.Nghenghiep = x.Nghenghiep;
+                ba.Dantoc = x.Dantoc;
+                ba.Madantoc = x.Madantoc;
+                ba.Quoctich = x.Quoctich;
+                ba.Maquoctich = x.Maquoctich;
+                ba.Sonha = x.Sonha;
+                ba.Thonpho = x.Thonpho;
+                ba.Xaphuong = x.Xaphuong;
+                ba.Maxaphuong = x.Maxaphuong;
+                ba.Huyen = x.Huyen;
+                ba.Mahuyen = x.Mahuyen;
+                ba.Thanhpho = x.Thanhpho;
+                ba.Mathanhpho = x.Mathanhpho;
+                ba.Doituong = x.Doituong;
+                ba.Sothebhyt = x.Sothebhyt;
+                ba.Cancuoc = x.Cancuoc;
+                ba.Hotenthannhan = x.Hotenthannhan;
+                ba.Dienthoaithannhan = x.Dienthoaithannhan;
+                ba.Lydovaovien = x.Lydovaovien;
+                ba.Dienbienlamsang = x.Dienbienlamsang;
+                ba.Diung = x.Diung;
+                ba.Motadiung = x.Motadiung;
+                ba.Banthan = x.Banthan;
+                ba.Motabanthan = x.Motabanthan;
+                ba.Giadinh = x.Giadinh;
+                ba.Motagiadinh = x.Motagiadinh;
+                ba.Bophan = x.Bophan;
+                ba.Hocmatphai = x.Hocmatphai;
+                ba.Motahocmatphai = x.Motahocmatphai;
+                ba.Tinhtrangnhancauphai = x.Tinhtrangnhancauphai;
+                ba.Motatinhtrangnhancauphai = x.Motatinhtrangnhancauphai;
+                ba.Vannhanphai = x.Vannhanphai;
+                ba.Motavannhanphai = x.Motavannhanphai;
+                ba.Ledaophai = x.Ledaophai;
+                ba.Motaledaophai = x.Motaledaophai;
+                ba.Mimatphai = x.Mimatphai;
+                ba.Motamimatphai = x.Motamimatphai;
+                ba.Ketmacphai = x.Ketmacphai;
+                ba.Motaketmacphai = x.Motaketmacphai;
+                ba.Giacmacphai = x.Giacmacphai;
+                ba.Motagiacmacphai = x.Motagiacmacphai;
+                ba.Cungmacphai = x.Cungmacphai;
+                ba.Motacungmacphai = x.Motacungmacphai;
+                ba.Tienphongphai = x.Tienphongphai;
+                ba.Motatienphongphai = x.Motatienphongphai;
+                ba.Mongmatphai = x.Mongmatphai;
+                ba.Motamongmatphai = x.Motamongmatphai;
+                ba.Dongtuphai = x.Dongtuphai;
+                ba.Motadongtuphai = x.Motadongtuphai;
+                ba.Thethuytinhphai = x.Thethuytinhphai;
+                ba.Motathethuytinhphai = x.Motathethuytinhphai;
+                ba.Dichkinhphai = x.Dichkinhphai;
+                ba.Motadichkinhphai = x.Motadichkinhphai;
+                ba.Daymatphai = x.Daymatphai;
+                ba.Motadaymatphai = x.Motadaymatphai;
+                ba.Hocmattrai = x.Hocmattrai;
+                ba.Motahocmattrai = x.Motahocmattrai;
+                ba.Tinhtrangnhancautrai = x.Tinhtrangnhancautrai;
+                ba.Motatinhtrangnhancautrai = x.Motatinhtrangnhancautrai;
+                ba.Vannhantrai = x.Vannhantrai;
+                ba.Motavannhantrai = x.Motavannhantrai;
+                ba.Ledaotrai = x.Ledaotrai;
+                ba.Motaledaotrai = x.Motaledaotrai;
+                ba.Mimattrai = x.Mimattrai;
+                ba.Motamimattrai = x.Motamimattrai;
+                ba.Ketmactrai = x.Ketmactrai;
+                ba.Motaketmactrai = x.Motaketmactrai;
+                ba.Giacmactrai = x.Giacmactrai;
+                ba.Motagiacmactrai = x.Motagiacmactrai;
+                ba.Cungmactrai = x.Cungmactrai;
+                ba.Motacungmactrai = x.Motacungmactrai;
+                ba.Tienphongtrai = x.Tienphongtrai;
+                ba.Motatienphongtrai = x.Motatienphongtrai;
+                ba.Mongmattrai = x.Mongmattrai;
+                ba.Motamongmattrai = x.Motamongmattrai;
+                ba.Dongtutrai = x.Dongtutrai;
+                ba.Motadongtutrai = x.Motadongtutrai;
+                ba.Thethuytinhtrai = x.Thethuytinhtrai;
+                ba.Motathethuytinhtrai = x.Motathethuytinhtrai;
+                ba.Dichkinhtrai = x.Dichkinhtrai;
+                ba.Motadichkinhtrai = x.Motadichkinhtrai;
+                ba.Daymattrai = x.Daymattrai;
+                ba.Motadaymattrai = x.Motadaymattrai;
+                ba.Toanthan = x.Toanthan;
+                ba.Motatoanthan = x.Motatoanthan;
+                ba.Mach = x.Mach;
+                ba.Nhietdo = x.Nhietdo;
+                ba.Huyetap = x.Huyetap;
+                ba.Nhiptho = x.Nhiptho;
+                ba.Cannang = x.Cannang;
+                ba.Chieucao = x.Chieucao;
+                ba.Cacxetnghiem = x.Cacxetnghiem;
+                ba.Motacacxetnghiem = x.Motacacxetnghiem;
+                ba.Tomtatbenhan = x.Tomtatbenhan;
+                ba.Benhchinh = x.Benhchinh;
+                ba.Mabenhchinh = x.Mabenhchinh;
+                ba.Benhkemtheo = x.Benhkemtheo;
+                ba.Mabenhkemtheo = x.Mabenhkemtheo;
+                ba.Bienchung = x.Bienchung;
+                ba.Mabienchung = x.Mabienchung;
+                ba.Tienluonggan = x.Tienluonggan;
+                ba.Tienluongxa = x.Tienluongxa;
+                ba.Huongdieutritieptheo = x.Huongdieutritieptheo;
+                ba.Tuvangiaoduc = x.Tuvangiaoduc;
+                ba.Motatuvangiaoduc = x.Motatuvangiaoduc;
+                ba.Thoigianbacsidieutriky = x.Thoigianbacsidieutriky;
+                ba.Bacsidieutri = x.Bacsidieutri;
+                ba.Thoigiandaidiencskbcbky = x.Thoigiandaidiencskbcbky;
+                ba.Daidiencskbcb = x.Daidiencskbcb;
+                ba.Chuandoankhiravienmp = x.Chuandoankhiravienmp;
+                ba.Chuandoankhiravienmt = x.Chuandoankhiravienmt;
+                ba.Noikhoa = x.Noikhoa;
+                ba.Motanoikhoa = x.Motanoikhoa;
+                ba.Phauthuatthuthuat = x.Phauthuatthuthuat;
+                ba.Motaphauthuatthuthuat = x.Motaphauthuatthuthuat;
+                ba.Toantrang = x.Toantrang;
+                ba.Matphai = x.Matphai;
+                ba.Mattrai = x.Mattrai;
+                ba.Thilucravienmp = x.Thilucravienmp;
+                ba.Thilucravienmt = x.Thilucravienmt;
+                ba.Thilucchinhkinhmp = x.Thilucchinhkinhmp;
+                ba.Thilucchinhkinhmt = x.Thilucchinhkinhmt;
+                ba.Nhanapravienmp = x.Nhanapravienmp;
+                ba.Nhanapravienmt = x.Nhanapravienmt;
+                ba.Huongdieutri = x.Huongdieutri;
+                ba.Thoigianbacsidieutrikytk = x.Thoigianbacsidieutrikytk;
+                ba.Bacsidieutritk = x.Bacsidieutritk;
 
-        //        _context.Benhanngoaikhoas.Update(ba);
-        //        await _context.SaveChangesAsync();
-        //        return new
-        //        {
-        //            data = ba
-        //        };
-        //    }
-        //}
+                _context.Benhanngoaitrumats.Update(ba);
+                await _context.SaveChangesAsync();
+                return new
+                {
+                    data = ba
+                };
+            }
+            catch (Exception ex)
+            {
+                return new
+                {
+                    message = ex.Message
+                };
+            }
+        }
 
         public async Task<dynamic> ThongTin()
         {
