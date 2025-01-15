@@ -101,7 +101,7 @@ namespace ProjectBA.Controllers
             ViewBag.matTrai1 = ConvertImageToBase64(_hostingEnvironment, "/img/mattrai.png");
 
             ViewBag.matPhai2 = ConvertImageToBase64(_hostingEnvironment, "/img/matphai2.jpeg");
-            ViewBag.matTrai2 = ConvertImageToBase64(_hostingEnvironment, "/img/mattrai2.png");
+            ViewBag.matTrai2 = ConvertImageToBase64(_hostingEnvironment, "/img/mattrai2.jpeg");
             PartialViewResult partialViewResult = PartialView("PDFBenhAnNgoaiTruMat", data);
             string viewContent = ConvertViewToString(ControllerContext, partialViewResult, _viewEngine);
 
